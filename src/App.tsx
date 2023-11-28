@@ -37,6 +37,21 @@ function App({ title }: Props) {
     },
   ]);
 
+  const getCurrentTimeStamp = (): number => new Date().getTime();
+
+  const newAddTask = (task: Task) => {
+    setTasks([
+      ...tasks,
+      { ...task, id: getCurrentTimeStamp(), completed: false },
+    ]);
+  };
+
+  const deleteTask = (id: number) => {
+    const newList = tasks.filter((taskL) => taskL.id !== id);
+
+    setTasks(newList);
+  };
+
   return (
     <>
       <nav className="navbar bg-success text-light">
@@ -52,11 +67,11 @@ function App({ title }: Props) {
         <main className="container p-4">
           <div className="row">
             <div className="col-md-4">
-              <TaskForm />
+              <TaskForm addNewTask={newAddTask} />
             </div>
             <div className=" col-md-8">
               <div className="d-flex row">
-                <TaskList tasks={tasks} />
+                <TaskList tasks={tasks} deleteTask={deleteTask} />
               </div>
             </div>
           </div>
